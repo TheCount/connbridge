@@ -584,7 +584,7 @@ static void bridge_cb( struct ev_loop * loop, ev_io * watcher, int flags ) {
 			ev_io_start( loop, &bridge->destwatcher );
 		}
 	}
-	if ( ( bridge->srcwatcher.events == 0 ) && ( bridge->destwatcher.events == 0 ) ) {
+	if ( ( ( bridge->srcwatcher.events & ( EV_READ | EV_WRITE ) ) == 0 ) && ( ( bridge->destwatcher.events & ( EV_READ | EV_WRITE ) ) == 0 ) ) {
 		/* All done */
 		goto cleanup;
 	}
