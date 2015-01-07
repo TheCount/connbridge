@@ -292,6 +292,8 @@ static void bridge_fini( struct Bridge * bridge ) {
 
 	ev_io_stop( loop, &bridge->srcwatcher );
 	ev_io_stop( loop, &bridge->destwatcher );
+	close_fd( bridge->srcwatcher.fd );
+	close_fd( bridge->destwatcher.fd );
 	close_output_file( bridge->srcFile );
 	close_output_file( bridge->destFile );
 }
