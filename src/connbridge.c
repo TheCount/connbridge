@@ -191,6 +191,25 @@ static const char * satos( struct sockaddr * addr, size_t socklen ) {
 }
 
 /**
+ * Closes a file descriptor, printing an error message on failure.
+ *
+ * @param fd File descriptor.
+ */
+static void close_fd( int fd ) {
+	for ( ;; ) {
+		int rc = close( fd );
+		if ( rc == 0 ) {
+			return;
+		} else if ( errno == EINTR ) {
+			continue;
+		} else {
+			fprintf( stderr, "Unable to properly close fd %d: %s", fd, strerror( errno ) );
+			return;
+		}
+	}
+}
+
+/**
  * Closes an output file, printing an error message on failure.
  *
  * @param f Pointer to file.
@@ -573,25 +592,6 @@ static void bridge_cb( struct ev_loop * loop, ev_io * watcher, int flags ) {
 cleanup:
 error:
 	bridge_del( bridge );
-}
-
-/**
- * Closes a file descriptor, printing an error message on failure.
- *
- * @param fd File descriptor.
- */
-static void close_fd( int fd ) {
-	for ( ;; ) {
-		int rc = close( fd );
-		if ( rc == 0 ) {
-			return;
-		} else if ( errno == EINTR ) {
-			continue;
-		} else {
-			fprintf( stderr, "Unable to properly close fd %d: %s", fd, strerror( errno ) );
-			return;
-		}
-	}
 }
 
 /**
