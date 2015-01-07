@@ -1,1 +1,14 @@
 Application for creating a connection bridge.
+
+It starts a TCP server on the source node, bridging all traffic between source
+and specified destination. The bridged traffic is logged into files on a
+per-socket basis.
+
+This application may be useful for debugging high-volume traffic on
+OSI layer 4. There are alternatives which might work better for you: there is
+tcpdump (operates on OSI layer 2, may require root permissions and may
+experience the occasional dropped packet). Furthermore, depending on your
+application, there may be traffic loggers operating on higher OSI layers
+(proxies, plugins).
+
+This application depends on libev.
